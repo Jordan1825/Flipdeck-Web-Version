@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <!--App Title -->
+    <h1>FlipDeck</h1>
+    <p class="tagline">My flashcard app</p>
+
+    <!--Create New Deck Section -->
+    <div class="create-deck">
+        <h2>Create New Deck</h2>
+        <input type="text" id="deckNameInput" placeholder="e.g. Spanish Vocabulary">
+        <button id="createDeckBtn">Create Deck</button>
+</div>
+
+    <!--Deck List Section -->
+    <div class="deck-list-section">
+        <h2>My Decks</h2>
+        <div id="deckList">
+          <p class="empty-message">No decks created yet. Start by creating a new deck!</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
