@@ -88,3 +88,68 @@ deckNameInput.addEventListener('keypress', function(event) {
 
 // Initial display
 displayDecks();
+
+
+//Auto-add new card row when current one is filled
+const cardContainer = document.getElementById('cards-container');
+let cardIDCounter = 1;
+
+function addNewCardRow() {
+    cardIDCounter++;
+
+    const cardRow = document.createElement('div');
+    newCardRow.className = 'card-row';
+    newCardRow.setAttribute('data-card-id', cardIDCounter);
+
+    newCardRow.innerHTML = `
+        <input type="text" class="card-front" placeholder="Front" data-card-id="${cardIDCounter}">
+        <input type="text" class="card-back" placeholder="Back" data-card-id="${cardIDCounter}">
+        <button class="delete-card-btn" data-card-id="${cardIDCounter}">
+            img src="trash-icon.webp" alt="Delete">
+        </button>
+    `;
+
+    cardsContainer.appendChild(newCardRow);
+    attachCardListeners(newCardRow);
+}
+
+function attachCardListeners(cardRow) {
+    const frontInput = cardRow.querySelector('.card-front');
+    const backInput = cardRow.querySelector('.card-back');
+
+    function checkBothFilled() {
+        if (frontInput.value.trim() !== '' && backInput.value.trim() !== '') {
+            // Check if this is the last card
+            const allRows = document.querySelectorAll('.card-row');
+            const lastRow = allRows[allRows.length - 1];
+
+            if (cardRow === lastRow) {
+                addNewCardRow();
+            }
+        }
+    }
+
+    frontInput.addEventListener('input', checkBothFilled);
+    backInput.addEventListener('input', checkBothFilled);
+}
+
+// Attach listeners to the first card on page load
+if (cardsContainer) {
+    const firstCardRow = cardsContainer.querySelector('.card-row');
+    if (firstCardRow) {
+        attachCardListeners(firstCardRow);
+    }
+}
+
+
+// At the bottom where you attach listeners
+if (cardsContainer) {
+    const firstCardRow = cardsContainer.querySelector('.card-row');
+    if (firstCardRow) {
+        attachCardListeners(firstCardRow);
+    } else {
+        console.log("No .card-row found!");
+    }
+} else {
+    console.log("cards-container not found!");
+}

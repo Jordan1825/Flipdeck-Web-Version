@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deck Builder FLipDeck</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Logo and deck name -->
+     <div class="deck-builder-header">
+        <h1>FlipDeck</h1>
+        <input type="text" id="deck-name-input" placeholder="Deck Name" value="Untitled Deck">
+    </div>
+
+    <!-- Card Container -->
+    <div id="cards-container">
+        <!-- First card row-->
+         <div class="card-row" data-card-id="1">
+                <input type="text" class="card-front" placeholder="Front" data-card-id="1">
+                <input type="text" class="card-back" placeholder="Back" data-card-id="1">
+                <button class="delete-card-btn" data-card-id="1">
+                <img src="trash-icon.webp" alt ="Delete Card">
+            </button>
+        </div>
+        </div>
+    </div>
+
+    <!-- Create Deck Button -->
+    <button id="create-deck-btn" disabled>Create Deck</button>
+    <p class="card-count-info">Need at least 4 cards to create deck</p>
+
+    <script src="script.js"></script>
+</body>
+</html>

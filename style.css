@@ -117,3 +117,74 @@ button:hover {
     padding: 20px;
     font-style: italic;
 }
+
+/* Settings icon */
+.settings-icon {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+settings-icon:hover {
+    opacity: 0.5;
+}
+
+
+
+/* Deck list grid - 2 columns Feb 19th 2026*/ 
+#deckList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;  /* Two equal columns */
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Individual deck button styling */
+.deck-item {
+    background: #4CAF50;
+    color: white;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.3s;
+}
+
+.deck-item:hover {
+    background: #45a049;
+}
+
+/* card row layout Front | Back | Trash */
+.card-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto; /* Front, Back, Trash */
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+    max-width: 800px; /* not taking up the whole width of the page */
+    align-items: center;
+}
+
+/* Card content styling 3/1/26 */
+.card-front, .card-back {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+/* Trash icon styling 3/1/26 */
+.delete-card-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0px;
+    object-fit: contain;
+}
+.delete-card-btn img {
+    width: 48px;
+    height: 48px;
+}
