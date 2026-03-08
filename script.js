@@ -1,7 +1,21 @@
+// I seem to need this to prevent some weird bug where the first card row doesn't get listeners attached. 3/7/2026
+document.addEventListener('DOMContentLoaded', function() {
+
+
+
 // Get DOM elements
-const deckNameInput = document.getElementById('deckNameInput');
-const createDeckBtn = document.getElementById('createDeckBtn');
+const deckNameInput = document.getElementById('deck-name-input');
+const createDeckBtn = document.getElementById('create-deck-btn');
 const deckList = document.getElementById('deckList');
+
+// Only run home page code if home page elements exist
+if (deckList) {
+    createDeckBtn.addEventListener('click', createDeck);
+    deckNameInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') { createDeck(); }
+    });
+    displayDecks();
+}
 
 // Array to store the decks
 let decks = [];
@@ -76,6 +90,8 @@ function openDeck(deckId) {
     }
 }
 
+if (deckList) {
+    createDeckBtn.addEventListener('click', createDeck);
 // Event Listerner: Create deck button
 createDeckBtn.addEventListener('click', createDeck);
 
@@ -83,21 +99,28 @@ createDeckBtn.addEventListener('click', createDeck);
 deckNameInput.addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
         createDeck();
+
+        // 4 cards minium requirement 3/8/26
+        const fillCards = document.querySelectorAll('.card-row').length;
+        if (fillCards < 4) {
+            alert('Please add at least 4 cards to create your deck!');
+            return;
+        }
     }
 });
 
 // Initial display
 displayDecks();
+}
 
-
-//Auto-add new card row when current one is filled
+//Auto-add new card row when current one is filled   3/1/2026
 const cardContainer = document.getElementById('cards-container');
 let cardIDCounter = 1;
 
 function addNewCardRow() {
     cardIDCounter++;
 
-    const cardRow = document.createElement('div');
+    const newCardRow = document.createElement('div');
     newCardRow.className = 'card-row';
     newCardRow.setAttribute('data-card-id', cardIDCounter);
 
@@ -105,11 +128,17 @@ function addNewCardRow() {
         <input type="text" class="card-front" placeholder="Front" data-card-id="${cardIDCounter}">
         <input type="text" class="card-back" placeholder="Back" data-card-id="${cardIDCounter}">
         <button class="delete-card-btn" data-card-id="${cardIDCounter}">
-            img src="trash-icon.webp" alt="Delete">
+            <img src="trash-icon.webp" alt="Delete">
         </button>
     `;
 
-    cardsContainer.appendChild(newCardRow);
+    // Add delete functionality to the new card row 3/8/26
+    const deleteBtn = newCardRow.querySelector('.delete-card-btn');
+    deleteBtn.addEventListener('click', function() {
+        newCardRow.remove();
+    });
+
+    cardContainer.appendChild(newCardRow);
     attachCardListeners(newCardRow);
 }
 
@@ -131,25 +160,36 @@ function attachCardListeners(cardRow) {
 
     frontInput.addEventListener('input', checkBothFilled);
     backInput.addEventListener('input', checkBothFilled);
-}
+}// Closes attachCardListeners function 
 
-// Attach listeners to the first card on page load
-if (cardsContainer) {
-    const firstCardRow = cardsContainer.querySelector('.card-row');
-    if (firstCardRow) {
-        attachCardListeners(firstCardRow);
-    }
-}
+
 
 
 // At the bottom where you attach listeners
-if (cardsContainer) {
-    const firstCardRow = cardsContainer.querySelector('.card-row');
+if (cardContainer) {
+    const firstCardRow = cardContainer.querySelector('.card-row');
     if (firstCardRow) {
         attachCardListeners(firstCardRow);
     } else {
         console.log("No .card-row found!");
     }
+
+}
+// Create deck button validation and navigation. Screen 3 transition happens here after validation. 3/8/26
+if (createDeckBtn) {
+    createDeckBtn.addEventListener('click', function() {
+        const allRows = document.querySelectorAll('.card-row');
+        const filledRows = allRows.length - 1;
+        
+        if (filledRows < 4) {
+            alert('Please add at least 4 cards to create your deck!');
+            return;
+        }
+        window.location.href = 'Deck-Builder-Screen3Review.html';
+    });
+
 } else {
     console.log("cards-container not found!");
 }
+
+}); // End of DOMContentLoaded event listener that I seem to need to prevent some weird bug where the first card row doesn't get listeners attached. 3/7/2026
