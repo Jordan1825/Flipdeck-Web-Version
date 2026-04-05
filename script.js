@@ -102,7 +102,7 @@ deckNameInput.addEventListener('keypress', function(event) {
 
         // 4 cards minium requirement 3/8/26
         const fillCards = document.querySelectorAll('.card-row').length;
-        if (fillCards < 4) {
+        if (fillCards <= 4) {
             alert('Please add at least 4 cards to create your deck!');
             return;
         }
@@ -125,8 +125,8 @@ function addNewCardRow() {
     newCardRow.setAttribute('data-card-id', cardIDCounter);
 
     newCardRow.innerHTML = `
-        <input type="text" class="card-front" placeholder="Front" data-card-id="${cardIDCounter}">
-        <input type="text" class="card-back" placeholder="Back" data-card-id="${cardIDCounter}">
+        <input type="text" name="card-front" class="card-front" placeholder="Front" data-card-id="${cardIDCounter}">
+        <input type="text" name="card-back" class="card-back" placeholder="Back" data-card-id="${cardIDCounter}">
         <button class="delete-card-btn" data-card-id="${cardIDCounter}">
             <img src="trash-icon.webp" alt="Delete">
         </button>
@@ -181,7 +181,7 @@ if (createDeckBtn) {
         const allRows = document.querySelectorAll('.card-row');
         const filledRows = allRows.length - 1;
         
-        if (filledRows < 4) {
+        if (filledRows <= 4) {
             alert('Please add at least 4 cards to create your deck!');
             return;
         }
@@ -192,4 +192,127 @@ if (createDeckBtn) {
     console.log("cards-container not found!");
 }
 
-}); // End of DOMContentLoaded event listener that I seem to need to prevent some weird bug where the first card row doesn't get listeners attached. 3/7/2026
+// ===============================================================
+// SCREEN 2 TO SCREEN 3 TRANSITION CODE (REVIEW SCREEN) 3/11/26
+//================================================================
+
+// STEP 1 COLLECT ALL DECK DATA FROM SCREEN 2
+function collectDeckData() {
+    const deckName = document.getElementById('deck-name-input').value;
+    const cardRows = document.querySelectorAll('.card-row');
+    const cards = [];
+
+    cardRows.forEach(row => {
+        const frontInput = row.querySelector('.card-front');
+        const backInput = row.querySelector('.card-back');
+        if (frontInput.value.trim() !== '' && backInput.value.trim() !== '') {
+            cards.push({
+                front: frontInput.value.trim(),
+                back: backInput.value.trim()
+            });
+        }
+    });
+
+    return {
+        name: deckName,
+        cards: cards
+        ,createdAt: new Date().toISOString() // Optional: Add a timestamp //check out if bug here
+    };
+}
+
+// STEP 2 SAVE DECK DATA TO LOCAL STORAGE
+function saveDeckToLocalStorage(deckData) {
+    localStorage.setItem('tempDeck', JSON.stringify(deckData));
+    }
+
+// STEP 3 LOAD DECK FROM LOCALSTORAGE
+function loadDeckFromLocalStorage() {
+    const tempDeckString = localStorage.getItem('tempDeck');
+
+    if (!tempDeckString) {
+        alert("No deck found! Redirecting back to deck builder...");
+        window.location.href = 'Deck-BuilderSC2.html';
+        return null;
+    }
+
+    return JSON.parse(tempDeckString);
+}
+ // STEP 4: DISPLAY DECK FOR REVISION ON SCREEN 3
+ function displayDeckForReview() {
+    const deckData = loadDeckFromLocalStorage();
+
+    if (!deckData) return;
+
+    document.getElementById('deck-name-display').textContent = deckData.name;
+
+    const reviewContainer = document.getElementById('review-cards-container');
+    reviewContainer.innerHTML = '';
+
+    deckData.cards.forEach((card, index) => {
+        const cardRow = document.createElement('div');
+        cardRow.className = 'review-card-row';
+
+        cardRow.innerHTML = `
+            <div class="card-number">${index + 1}.</div>
+            <div class="card-preview">
+                <span class="label">Front:</span>
+                <span class="content">${card.front}</span>
+            </div>
+            <div class="card-preview">
+                <span class="label">Back:</span>
+                <span class="content">${card.back}</span>
+            </div>
+        `;
+
+        reviewContainer.appendChild(cardRow);
+    });
+}
+
+// =====================================================
+// SCREEN 2: CREATE DECK BUTTON 3/11/26
+// =====================================================
+const createDeckBtnNew = document.getElementById('create-deck-btn');
+
+if (createDeckBtnNew) {
+    createDeckBtnNew.addEventListener('click', function() {
+        const deckData = collectDeckData();
+
+        if (deckData.cards.length < 4) {
+            alert('Please add at least 4 cards to create your deck!');
+            return;
+        }
+
+        saveDeckToLocalStorage(deckData);
+
+        window.location.href = 'Deck-Builder-Screen3Review.html';
+    });
+}
+
+// =====================================================
+// SCREEN 3: DISPLAY AND BUTTONS
+// =====================================================
+if (document.getElementById('review-cards-container')) {
+    displayDeckForReview();
+}
+
+const goBackBtn = document.getElementById('go-back-btn');
+if (goBackBtn) {
+    goBackBtn.addEventListener('click', function() {
+        window.location.href = 'Deck-BuilderSC2.html';
+    });
+}
+
+const saveDeckBtn = document.getElementById('save-deck-btn');
+if (saveDeckBtn) {
+    saveDeckBtn.addEventListener('click', function() {
+        const deckData = loadDeckFromLocalStorage();
+
+        console.log('Deck to save:', deckData);
+        alert(`Deck "${deckData.name}" saved successfully!`);
+
+        localStorage.removeItem('tempDeck');
+        window.location.href = 'index-home.html';
+    });
+
+}
+});// End of DOMContentLoaded event listener that I seem to need to prevent some weird bug where the first card row doesn't get listeners attached. 3/7/2026
