@@ -10,10 +10,7 @@ const deckList = document.getElementById('deckList');
 
 // Only run home page code if home page elements exist
 if (deckList) {
-    createDeckBtn.addEventListener('click', createDeck);
-    deckNameInput.addEventListener('keypress', function(event) {
-        if (event.key === 'Enter') { createDeck(); }
-    });
+   
     displayDecks();
 }
 
@@ -51,33 +48,36 @@ function createDeck() {
     console.log('All decks:', decks);
 }
 
-// Function: Display all decks
+// =====================================================
+// SCREEN 4: QUIZ MODE - HOME SCREEN SETUP
+// =====================================================
+// Loads saved decks from localStorage and launches quiz
 function displayDecks() {
-    // Clear current display
     deckList.innerHTML = '';
 
-    // Check if no decks exist
-    if (decks.length === 0) {
-        deckList.innerHTML = '<p>No decks created yet. Create one above!</p>';
+    const savedDecks = JSON.parse(localStorage.getItem('savedDecks') || '[]');
+
+    if (savedDecks.length === 0) {
+        deckList.innerHTML = '<p class="empty-message">No decks created yet. Start by creating a new deck!</p>';
         return;
     }
 
-    // Create HTML for each deck
-    decks.forEach(function(deck) {
-        // Create deck element
+    savedDecks.forEach(function(deck) {
         const deckDiv = document.createElement('div');
         deckDiv.className = 'deck-item';
         deckDiv.textContent = deck.name + ' (' + deck.cards.length + ' cards)';
 
-        // Add click handler 
         deckDiv.addEventListener('click', function() {
-            openDeck(deck.id);
+            localStorage.setItem('activeDeck', JSON.stringify(deck));
+            window.location.href = 'quiz-screen4.html';
         });
 
-        // Add to list
         deckList.appendChild(deckDiv);
     });
 }
+// =====================================================
+// SCREEN 4: QUIZ MODE - HOME SCREEN SETUP CLOSE *****
+// =====================================================
 
 // Function: Open a deck (placeholder for now)
 function openDeck(deckId) {
@@ -102,7 +102,7 @@ deckNameInput.addEventListener('keypress', function(event) {
 
         // 4 cards minium requirement 3/8/26
         const fillCards = document.querySelectorAll('.card-row').length;
-        if (fillCards <= 4) {
+        if (fillCards < 4) {
             alert('Please add at least 4 cards to create your deck!');
             return;
         }
@@ -174,22 +174,6 @@ if (cardContainer) {
         console.log("No .card-row found!");
     }
 
-}
-// Create deck button validation and navigation. Screen 3 transition happens here after validation. 3/8/26
-if (createDeckBtn) {
-    createDeckBtn.addEventListener('click', function() {
-        const allRows = document.querySelectorAll('.card-row');
-        const filledRows = allRows.length - 1;
-        
-        if (filledRows <= 4) {
-            alert('Please add at least 4 cards to create your deck!');
-            return;
-        }
-        window.location.href = 'Deck-Builder-Screen3Review.html';
-    });
-
-} else {
-    console.log("cards-container not found!");
 }
 
 // ===============================================================
@@ -273,7 +257,7 @@ function loadDeckFromLocalStorage() {
 // =====================================================
 const createDeckBtnNew = document.getElementById('create-deck-btn');
 
-if (createDeckBtnNew) {
+if (createDeckBtnNew && document.getElementById(('cards-container'))) {
     createDeckBtnNew.addEventListener('click', function() {
         const deckData = collectDeckData();
 
@@ -283,9 +267,9 @@ if (createDeckBtnNew) {
         }
 
         saveDeckToLocalStorage(deckData);
-
         window.location.href = 'Deck-Builder-Screen3Review.html';
-    });
+        });
+    
 }
 
 // =====================================================
@@ -307,6 +291,21 @@ if (saveDeckBtn) {
     saveDeckBtn.addEventListener('click', function() {
         const deckData = loadDeckFromLocalStorage();
 
+        // Load existing saved decks or start fresh
+        const savedDecks = JSON.parse(localStorage.getItem('savedDecks')) || [];
+        //Give deck a unique ID for later retrieval
+        deckData.id = Date.now();
+        savedDecks.push(deckData);
+// ===============================================================
+// STEP 5: SAVE DECK PERMANENTLY AND NAVIGATE HOME 5/10/26
+//================================================================
+        // Save updated decks back to localStorage Permanently
+        localStorage.setItem('savedDecks', JSON.stringify(savedDecks));
+        localStorage.removeItem('tempDeck'); // Clean up temp data
+
+        
+        window.location.href = 'index-home.html';
+// =============================================================== STEP 5: SAVE DECK PERMANENTLY AND NAVIGATE HOME CLOSE 
         console.log('Deck to save:', deckData);
         alert(`Deck "${deckData.name}" saved successfully!`);
 
@@ -315,4 +314,97 @@ if (saveDeckBtn) {
     });
 
 }
-});// End of DOMContentLoaded event listener that I seem to need to prevent some weird bug where the first card row doesn't get listeners attached. 3/7/2026
+// =====================================================
+//SCREEN 4: QUIZ MODE LOGIC 5/31/26
+// =====================================================
+If (document.getElementById('quiz-question')) 
+    const activeDeck = JSON.parse(localStorage.getItem('activeDeck'));
+
+    if (!activeDeck) {
+        alert("No deck selected. Going home.");
+        window.location.href = 'index-home.html';
+    } else {
+        document.getElementById('quiz-deck-name').textContent = activeDeck.name;
+
+        // Shuffle helper -- randomizes any array
+        function shuffle(arr) {
+            return arr.slice().sort(() => Math.random() - 0.5);
+        }
+
+        const cards = shuffle(activeDeck.cards);
+        let currentCardIndex = 0;
+        let score = 0;
+
+        document.getElementById('total-cards').textContent = cards.length;
+
+        function loadQuestion() {
+            const card = cards[currenIndex];
+            document.getElementById('current-card-num').textContent = currentIndex + 1;
+            document.getElementById('quiz-question').textContent = card.front;
+            document.getElementById('quiz-feedback').style.display = 'none';
+            document.getElementById('quiz-next-btn').style.display = 'none';
+
+            // BUILD WRONG CARD ANSWERS FROM OTHER CARDS' BACKS 5/31/26
+            const otherBacks = cards
+                .filter((_, i) => i !== currentIndex)
+                .map(card => c.back);
+            const wrongAnswers = shuffle(otherBacks).slice(0, 3);
+
+            //MIX CORRECT ANSWERS IN AND SHUFFLE ALL 4 5/31/26
+            const choices = shuffle([card.back, ...wrongAnswers]);
+
+            const choicesBox = document.getElementById('quiz-choices');
+            choicesBox.innerHTML = '';
+            choices.forEach(function(choice) {
+                const btn = document.createElement('button');
+                btn.textContent = choice;
+                btnaddEventListener('click', function() {
+                    handleAnswer(choice, card.back);
+                });
+                choicesBox.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(chosen, correct) {
+            // DISABLE ALL CHOICE BUTTONS AFTER ANSWERING 5/31/26
+            document.querySelectorAll('#quiz-choices button').forEach(btn => btn.disabled = true);
+            
+            const feedback = document.getElementById('quiz-feedback');
+            feedback.style.display = 'block';
+
+            if (chosen === correct) {
+                score++;
+                feedback.textContent = 'Correct!';
+                feedback.style.color = 'green';
+            } else {
+                feedback.textContent = 'Wrong - correct answer: ' + correct;
+                feedback.style.color = 'red';
+            }
+
+            document.getElementById('quiz-next-btn').style.display = 'block';
+        }
+
+        document.getElementById('quiz-next-btn').addEventListener('click', function() {
+            currentCardIndex++;
+            if (currentCardIndex < cards.length) {
+                loadQuestion();
+            } else {
+                // Show results
+                document.getElementById('quiz-question-box').style.display = 'none';
+                document.getElementById('quiz-choices').style.display = 'none';
+                document.getElementById('quiz-next-btn').style.display = 'none';
+                document.getElementById('quiz-progress').style.display = 'none';
+                const results = document.getElementById('quiz-results');
+                results.style.display = 'block';
+                document.getElementById('quiz-score-text').textContent = 'You got ' + score + ' out of ' + cards.length + ' correct!';
+            }
+        });
+        
+        document.getElementById('quiz-home-btn').addEventListener('click', function() {
+             window.location.href = 'index-home.html';
+        });
+
+        loadQuestion();
+    }
+    }
+)// End of DOMContentLoaded event listener that I seem to need to prevent some weird bug where the first card row doesn't get listeners attached. 3/7/2026

@@ -188,3 +188,167 @@ settings-icon:hover {
     width: 48px;
     height: 48px;
 }
+
+
+
+/* Review screen May 26th 2026 */
+.review-label {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.review-deck-name {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.review-card-row {
+    diplay: grid;
+    grid-template-columns: 30px 1fr 1fr;
+    gap: 10px;
+    align-items: center;
+    padding: 12px;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.card-number {
+    font-weight: bold;
+    color: #555;
+    font-size: 16px;
+}
+
+.card-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.card-number {
+    font-weight: bold;
+    color: #555;
+    font-size: 16px;
+}
+
+.review-label {
+    font-size: 11px;
+    color: #999;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.review-deck-name {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.review-card-row {
+    display: grid;
+    grid-template-columns: 30px 1fr 1fr;
+    gap: 10px;
+    align-items: center;
+    padding: 12px;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.card-number {
+    font-weight: bold;
+    color: #555;
+    font-size: 16px;
+}
+
+.card-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.label {
+    font-size: 11px;
+    color: #999;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.review-card-row {
+    display: grid;
+    grid-template-columns: 30px 1fr 1fr;
+    gap: 10px;
+    align-items: center;
+    padding: 12px;
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.card-number {
+    font-weight: bold;
+    color: #555;
+    font-size: 16px;
+}
+
+.card-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.label {
+    font-size: 11px;
+    color: #999;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.content {
+    font-size: 15px;
+    color: #333;
+}
+
+#go-back-btn {
+    margin-top: 10px ;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.card-number {
+    font-weight: bold;
+    color: #555;
+    font-size: 16px;
+}
+
+
+.card-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.label {
+    font-size: 11px;
+    color: #999;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.content {
+    font-size: 15px;
+    color: #333;
+}
+
+#go-back-btn {
+    margin-top: 10px;
+    background: #888;
+}
+
+#go-back-btn:hover {
+    background: #666;
+}
