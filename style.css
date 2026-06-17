@@ -25,7 +25,7 @@ body {
 /* Title */
 h1 {
     color: #333;
-    text-align: center; 
+    text-align: center;
     margin-bottom: 5px;
     font-size: 36px;
 }
@@ -39,7 +39,7 @@ h1 {
 }
 
 /* Create deck section */
-.create-section {
+.create-deck {
     background: #f9f9f9;
     padding: 20px;
     border-radius: 8px;
@@ -90,24 +90,22 @@ button:hover {
     margin-top: 30px;
 }
 
+/* Deck list grid - 2 columns */
 #deckList {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
 }
 
-/* Individual deck item */
+/* Individual deck card */
 .deck-item {
-    padding: 15px;
-    background: #f0f0f0;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.2s;
+    background: white;
+    border: 2px solid #4CAF50;
+    padding: 15px 20px;
+    border-radius: 8px;
     font-size: 16px;
-}
-
-.deck-item:hover {
-    background: #e0e0e0;
+    cursor: default;
 }
 
 /* Empty state message */
@@ -127,48 +125,50 @@ button:hover {
     top: 20px;
     right: 20px;
 }
-settings-icon:hover {
+
+.settings-icon:hover {
     opacity: 0.5;
 }
 
-
-
-/* Deck list grid - 2 columns Feb 19th 2026*/ 
-#deckList {
-    display: grid;
-    grid-template-columns: 1fr 1fr;  /* Two equal columns */
-    gap: 15px;
-    margin-top: 20px;
-}
-
-/* Individual deck button styling */
-.deck-item {
-    background: #4CAF50;
-    color: white;
-    padding: 30px;
-    border-radius: 8px;
-    text-align: center;
-    cursor: pointer;
+/* Deck item name and action buttons */
+.deck-item-name {
+    font-weight: bold;
+    color: #333;
     font-size: 18px;
-    transition: background 0.3s;
+    margin-bottom: 12px;
 }
 
-.deck-item:hover {
-    background: #45a049;
+.deck-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
-/* card row layout Front | Back | Trash */
+.deck-action-btn {
+    width: auto;
+    padding: 8px 18px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.coming-soon-label {
+    color: #aaa;
+    font-size: 12px;
+    font-style: italic;
+}
+
+/* Card row layout: Front | Back | Trash */
 .card-row {
     display: grid;
-    grid-template-columns: 1fr 1fr auto; /* Front, Back, Trash */
+    grid-template-columns: 1fr 1fr auto;
     gap: 10px;
     align-items: center;
     margin-bottom: 15px;
-    max-width: 800px; /* not taking up the whole width of the page */
-    align-items: center;
+    max-width: 800px;
 }
 
-/* Card content styling 3/1/26 */
+/* Card input styling */
 .card-front, .card-back {
     width: 100%;
     padding: 10px;
@@ -176,22 +176,21 @@ settings-icon:hover {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-/* Trash icon styling 3/1/26 */
+
+/* Trash icon styling */
 .delete-card-btn {
     background: none;
     border: none;
     cursor: pointer;
     padding: 0px;
-    object-fit: contain;
 }
+
 .delete-card-btn img {
     width: 48px;
     height: 48px;
 }
 
-
-
-/* Review screen May 26th 2026 */
+/* Review screen */
 .review-label {
     text-align: center;
     color: #666;
@@ -205,48 +204,6 @@ settings-icon:hover {
 }
 
 .review-card-row {
-    diplay: grid;
-    grid-template-columns: 30px 1fr 1fr;
-    gap: 10px;
-    align-items: center;
-    padding: 12px;
-    background: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
-    margin-bottom: 10px;
-}
-
-.card-number {
-    font-weight: bold;
-    color: #555;
-    font-size: 16px;
-}
-
-.card-preview {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.card-number {
-    font-weight: bold;
-    color: #555;
-    font-size: 16px;
-}
-
-.review-label {
-    font-size: 11px;
-    color: #999;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.review-deck-name {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.review-card-row {
     display: grid;
     grid-template-columns: 30px 1fr 1fr;
     gap: 10px;
@@ -263,68 +220,6 @@ settings-icon:hover {
     color: #555;
     font-size: 16px;
 }
-
-.card-preview {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.label {
-    font-size: 11px;
-    color: #999;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.review-card-row {
-    display: grid;
-    grid-template-columns: 30px 1fr 1fr;
-    gap: 10px;
-    align-items: center;
-    padding: 12px;
-    background: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
-    margin-bottom: 10px;
-}
-
-.card-number {
-    font-weight: bold;
-    color: #555;
-    font-size: 16px;
-}
-
-.card-preview {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.label {
-    font-size: 11px;
-    color: #999;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.content {
-    font-size: 15px;
-    color: #333;
-}
-
-#go-back-btn {
-    margin-top: 10px ;
-    border-radius: 6px;
-    margin-bottom: 10px;
-}
-
-.card-number {
-    font-weight: bold;
-    color: #555;
-    font-size: 16px;
-}
-
 
 .card-preview {
     display: flex;
@@ -351,4 +246,28 @@ settings-icon:hover {
 
 #go-back-btn:hover {
     background: #666;
+}
+
+/*for the delete deck button 6/17/26 */
+.delete-btn {
+    background: #e53935;
+
+}
+.delete-btn:hover {
+    background: #b71c1c;
+}
+.create-deck-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-style: dashed;
+    color: #4CAF50;
+    cursor: pointer;
+    min-height: 80px;
+}
+
+.create-deck-label {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
 }
