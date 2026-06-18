@@ -236,7 +236,7 @@
           const source = localStorage.getItem('reviewSource');
           if (source === 'home') {
               localStorage.removeItem('reviewSource');
-              window.location.href = 'index-home.html';
+              window.location.href = 'index.html';
           } else {
               window.location.href = 'Deck-BuilderSC2.html';
           }
@@ -252,7 +252,7 @@
           savedDecks.push(deckData);
           localStorage.setItem('savedDecks', JSON.stringify(savedDecks));
           localStorage.removeItem('tempDeck');
-          window.location.href = 'index-home.html';
+          window.location.href = 'index.html';
       });
   }
 
@@ -306,7 +306,7 @@
 
       if (!activeDeck) {
           alert("No deck selected. Going home.");
-          window.location.href = 'index-home.html';
+          window.location.href = 'index.html';
       } else {
           document.getElementById('quiz-deck-name').textContent = activeDeck.name;
 
@@ -379,7 +379,7 @@
           });
 
           document.getElementById('quiz-home-btn').addEventListener('click', function() {
-              window.location.href = 'index-home.html';
+              window.location.href = 'index.html';
           });
 
           loadQuestion();
